@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import data.Airport;
 import main.Main;
 
 public class SearchPanel extends JPanel {
@@ -42,8 +43,13 @@ public class SearchPanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO CHECK NULL;
-				Main.airport_graph.CalculateRoute(Main.start_airport, Main.end_airport);
+				if(Main.start_airport != null && Main.end_airport != null){
+					Airport[] route = Main.airport_graph.CalculateRoute(Main.start_airport, Main.end_airport);
+					System.out.println(route.length);
+					for(Airport ap : route){
+						System.out.println(ap.name());
+					}
+				}
 			}
 		});
 		

@@ -10,7 +10,7 @@ public class AirportGraph {
 	private HashMap<Airport, Airport[]> routes_;
 	private HashMap<Airport, float[]> dists_;
 	
-	
+	// must use GenerateGraph to make a new AirportGraph
 	private AirportGraph(Airport[] airports){
 		airports_ = airports;
 		routes_ = new HashMap<Airport, Airport[]>();
@@ -21,6 +21,7 @@ public class AirportGraph {
 	public HashMap<Airport, Airport[]> routes(){ return routes_; }
 	public HashMap<Airport, float[]>   dists() { return dists_;  }
 	
+	// Dijksra's
 	public Airport[] CalculateRoute(Airport start, Airport end){
 		if(start.code().equals(end.code())) return new Airport[]{start};
 		
@@ -67,10 +68,11 @@ public class AirportGraph {
 		}
 		
 		// while there are nodes to search over
+		Airport lowest_dist;
 		while(!R.isEmpty()){
 			
 			// find the node with the lowest distance from the starting node
-			Airport lowest_dist = R.get(0);
+			lowest_dist = R.get(0);
 			for(Airport apt : R)
 				if(d.get(apt) < d.get(lowest_dist))
 					lowest_dist = apt;
@@ -86,21 +88,23 @@ public class AirportGraph {
 			
 			// loop over nodes that are connected to lowest_dist
 			// who are also still in S
-			int index = 0;
-			for(Airport apt : routes_.get(lowest_dist)){
-				if(R.contains(apt)){
-					// IF the distance from starting node to apt (current node)
-					//    is shorter if you go through lowest_dist than it is currently
-					// THEN
-					//	set the distance of apt to the shorter distance, place in d
-					//  set the previous node for apt to lowest_dist
-					// ELSE continue loop
-					if(d.get(lowest_dist) + dists_.get(lowest_dist)[index] < d.get(apt)){
-						d.put(apt, d.get(lowest_dist) + dists_.get(lowest_dist)[index]);
-						p.put(apt, lowest_dist);
+			if(routes_.get(lowest_dist) != null){
+				int index = 0;
+				for(Airport apt : routes_.get(lowest_dist)){
+					if(R.contains(apt)){
+						// IF the distance from starting node to apt (current node)
+						//    is shorter if you go through lowest_dist than it is currently
+						// THEN
+						//	set the distance of apt to the shorter distance, place in d
+						//  set the previous node for apt to lowest_dist
+						// ELSE continue loop
+						if(d.get(lowest_dist) + dists_.get(lowest_dist)[index] < d.get(apt)){
+							d.put(apt, d.get(lowest_dist) + dists_.get(lowest_dist)[index]);
+							p.put(apt, lowest_dist);
+						}
 					}
+					++index;
 				}
-				++index;
 			}
 		}
 		
@@ -140,7 +144,8 @@ public class AirportGraph {
 						if(r.end_airport_code_.equals(a.code())){
 							aps.add(a);
 							
-							
+							// calculate distance between two lat and long points
+							// includes curvature of the earth
 							float a0 = ap.loc().latitude();
 							float a1 = a.loc().latitude();
 							
