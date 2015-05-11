@@ -2,7 +2,6 @@ package data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.BiConsumer;
 
 public class AirportGraph {
 	
@@ -126,6 +125,12 @@ public class AirportGraph {
 		return ret;
 	}
 	
+	/**
+	 * Make a graph
+	 * @param airports
+	 * @param routes
+	 * @return
+	 */
 	public static AirportGraph GenerateGraph(Airport[] airports, HashMap<String, Route[]> routes){
 		AirportGraph graph = new AirportGraph(airports);
 		ArrayList<Airport> aps;

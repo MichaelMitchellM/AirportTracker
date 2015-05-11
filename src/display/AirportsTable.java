@@ -14,7 +14,7 @@ import data.Airport;
 public class AirportsTable extends JTable{
 	private static final long serialVersionUID = 3127350893696122345L;
 
-	private static Object[][] data = {{"", "", ""}};
+	private static Object[][] data = {{"code", "country", "city"}};
 	private static Object[] col_names = {"Airport Code", "Country", "City"};
 	
 	private SearchPanel search_panel_;
@@ -41,7 +41,7 @@ public class AirportsTable extends JTable{
 				if(available_airports_ != null){
 					if(start_table_){
 						Main.start_airport = available_airports_.get(row);
-						search_panel_.SetStart("[ " + Main.start_airport.name() + " ] " + Main.start_airport.name());
+						search_panel_.SetStart("[ " + Main.start_airport.code() + " ] " + Main.start_airport.name());
 					}
 					else{
 						Main.end_airport = available_airports_.get(row);
@@ -56,6 +56,16 @@ public class AirportsTable extends JTable{
 			@Override
 			public void mouseClicked(MouseEvent e) {}
 		});
+		
+	}
+	
+	public AirportsTable(){
+		super(data, col_names);
+		
+		search_panel_ = null;
+		available_airports_ = null;
+		
+		
 		
 	}
 	

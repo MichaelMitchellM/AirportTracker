@@ -48,7 +48,6 @@ public class AirportSearchPanel extends JPanel{
 		
 		add(search_bar_);
 		add(scroll_pane_);
-		setVisible(true);
 	}
 	
 }
